@@ -1,4 +1,4 @@
-package com.levox.composition.domain.usecase
+package com.levox.composition.domain.usecases
 
 import com.levox.composition.domain.entity.Question
 import com.levox.composition.domain.repository.GameRepository
