@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.levox.composition.R
 import com.levox.composition.databinding.FragmentGameFinishedBinding
 import com.levox.composition.domain.entity.GameResult
 
@@ -17,6 +18,11 @@ class GameFinishedFragment : Fragment() {
     private var _binding: FragmentGameFinishedBinding? = null
     private val binding: FragmentGameFinishedBinding
         get() = _binding ?: throw RuntimeException("FragmentGameFinishedBinding == null")
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        parseArgs()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +43,31 @@ class GameFinishedFragment : Fragment() {
                 retryGame()
             }
         })
+
+        bindViews()
+    }
+
+    private fun bindViews() {
+        with(binding) {
+            if (result.isWinner) {
+                emojiResult.setImageResource(R.drawable.ic_happy)
+            } else {
+                emojiResult.setImageResource(R.drawable.ic_sad)
+            }
+
+            tvRequiredAnswers.text = String.format(getString(R.string.required_score), result.gameSettings.minCorrectAnswerCount)
+            tvScoreAnswers.text =  String.format(getString(R.string.score_answers), result.correctAnswers)
+            tvRequiredPercentage.text = String.format(getString(R.string.required_percentage), result.gameSettings.minCorrectAnswerPercentage)
+            tvScorePercentage.text = String.format(getString(R.string.score_percentage), getPercentageOfCorrectAnswers())
+        }
+    }
+
+    private fun getPercentageOfCorrectAnswers() = with(result) {
+        if (questionCount == 0) {
+            0
+        } else {
+            ((correctAnswers / questionCount.toDouble()) * 100).toInt()
+        }
     }
 
     override fun onDestroyView() {
