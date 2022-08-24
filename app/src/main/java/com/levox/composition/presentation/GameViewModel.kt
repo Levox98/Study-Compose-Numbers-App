@@ -5,7 +5,6 @@ import android.os.CountDownTimer
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.levox.composition.R
 import com.levox.composition.data.GameRepositoryImpl
 import com.levox.composition.domain.entity.GameResult
